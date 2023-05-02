@@ -572,7 +572,7 @@ body {
 .services-content img {
   width: 100vw;
   height: auto;
-  max-height: 400px;
+  max-height: 500px;
   object-position: center top;
   object-fit: cover;
   display: block;
