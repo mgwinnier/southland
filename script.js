@@ -43,3 +43,23 @@ function initMap() {
         infoWindow.open(map, marker);
       });
     }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var url = this.action;
+        var formData = new FormData(this);
+    
+        fetch(url, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors' // 'cors' by default
+        }).then(response => {
+          console.log(response);
+          alert('Form Submitted Successfully!');
+        }).catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    });
+    
