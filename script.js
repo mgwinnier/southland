@@ -45,7 +45,8 @@ function initMap() {
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-      document.getElementById('contact-form').addEventListener('submit', function(e) {
+      const form = document.getElementById('contact-form');
+      form.addEventListener('submit', function(e) {
         e.preventDefault();
         var url = this.action;
         var formData = new FormData(this);
@@ -57,6 +58,7 @@ function initMap() {
         }).then(response => {
           console.log(response);
           alert('Form Submitted Successfully!');
+          form.reset(); // Reset the form after successful submission
         }).catch(error => {
           console.error('Error:', error);
         });
