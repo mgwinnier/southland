@@ -45,8 +45,14 @@ function initMap() {
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-      const form = document.getElementById('contact-form');
-      form.addEventListener('submit', function(e) {
+      var form = document.getElementById('contact-form');
+    
+      // Removes existing 'submit' event listeners
+      var cloneForm = form.cloneNode(true);
+      form.parentNode.replaceChild(cloneForm, form);
+    
+      // Adds new 'submit' event listener
+      cloneForm.addEventListener('submit', function(e) {
         e.preventDefault();
         var url = this.action;
         var formData = new FormData(this);
@@ -58,10 +64,12 @@ function initMap() {
         }).then(response => {
           console.log(response);
           alert('Form Submitted Successfully!');
-          form.reset(); // Reset the form after successful submission
+          cloneForm.reset(); // Reset the form after successful submission
         }).catch(error => {
           console.error('Error:', error);
         });
       });
     });
+    
+  
     
