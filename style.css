@@ -178,10 +178,6 @@ main {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-.service:hover .service-title {
-  /* No background change on hover */
-}
-
 
 @media screen and (max-width: 1024px) {
 .service {
@@ -855,9 +851,6 @@ color: #fff;
 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-.service:hover .service-title {
-/* No background change on hover */
-}
 
 /* Media Queries for smaller screens */
 @media screen and (max-width: 1024px) {
