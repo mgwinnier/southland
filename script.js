@@ -70,6 +70,15 @@ function initMap() {
         });
       });
     });
+
+    function openModal(projectId) {
+      var projectCard = document.getElementById(projectId);
+      document.getElementById('modalTitle').innerText = projectCard.querySelector('h3').innerText;
+      document.getElementById('modalImage').src = projectCard.querySelector('img').src;
+      document.getElementById('modalImage').alt = projectCard.querySelector('img').alt;
+      document.getElementById('modalDescription').innerText = projectCard.querySelector('.long-description').innerText;
+      modal.style.display = "block";
+  }
     
   
     
