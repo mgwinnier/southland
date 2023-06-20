@@ -282,64 +282,71 @@ p {
 
 
 .footer-container {
-display: flex;
-justify-content: space-between;
-align-items: center;
-background-color: rgba(6, 105, 160, 255);
-color: white;
-font-size: 14px;
-padding: 20px;
-width: 100%;
-flex-shrink: 0
-}
-
-.footer-left {
-display: flex;
-flex-direction: column;
-}
-
-.footer-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(6, 105, 160, 255);
+  color: white;
+  font-size: 14px;
+  padding: 20px;
+  width: 100vw;
+  }
+  
+  .footer-left {
+  display: flex;
+  flex-direction: column;
+  }
+  
+  .footer-right {
   display: flex;
   align-items: center;
-  padding: 10px;
   margin-right: 50px;
-}
-
-.address, .hours {
-margin: 0;
-line-height: 1.5;
-margin-bottom: 10px;
-}
-
-.social-media-icons {
-display: flex;
-margin-left: 20px;
-}
-
-.social-media-icons a {
-margin-right: 10px;
-color: white;
-text-decoration: none;
-}
-
-.social-media-icons a:hover {
-color: #74c1eb;
-}
-
-.footer-logo {
-height: 30px;
-margin-right: 10px;
-}
-
-.footer-bottom-text {
-text-align: center;
-color: white;
-font-size: 14px;
-margin-top: 20px;
-padding: 200px;
-}
-
-@media screen and (max-width: 768px) {
+  }
+  
+  .address, .hours {
+  margin: 0;
+  line-height: 1.5;
+  margin-left: 10px;
+  }
+  
+  .hours {
+  margin-top: 10px;
+  }
+  
+  .phone, .email {
+  margin: 0;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  }
+  
+  .phone i, .email i {
+  margin-right: 5px;
+  }
+  
+  .fa-linkedin, .fa-envelope {
+  font-size: 24px;
+  margin-left: 10px;
+  }
+  
+  .fa-linkedin:hover, .fa-envelope:hover {
+  opacity: 0.8;
+  }
+  
+  .linkedin-icon {
+  width: 32px;
+  height: auto;
+  }
+  
+  .copyright {
+  text-align: center;
+  font-size: 12px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  }
+  
+  @media screen and (max-width: 768px) {
   .footer-left,
   .footer-right {
     display: flex;
@@ -347,13 +354,13 @@ padding: 200px;
     align-items: center; /* Change to center for better alignment on smaller screens */
     margin: 10px; /* Add margin for better spacing on smaller screens */
   }
-
+  
   .address, .hours {
     margin: 0;
     line-height: 1.5;
     text-align: center; /* Add this line for better alignment on smaller screens */
   }
-
+  
   .phone, .email {
     margin: 0;
     display: flex;
@@ -361,12 +368,12 @@ padding: 200px;
     justify-content: center; /* Add this line for better alignment on smaller screens */
     flex-wrap: wrap; /* Add this line to allow wrapping on smaller screens */
   }
-
+  
   .fa-linkedin, .fa-envelope {
     font-size: 24px;
     margin: 0 10px; /* Adjust margin for better spacing on smaller screens */
   }
-
+  
   .copyright {
     text-align: center;
     font-size: 12px;
