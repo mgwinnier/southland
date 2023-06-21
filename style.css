@@ -1438,6 +1438,22 @@ box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   max-width: calc(33.33% - 120px);
 }
 
+/* Styles for tablets and smaller screens (601px - 1024px) */
+@media screen and (max-width: 1024px) {
+  .project-card {
+    flex: 1 0 45%;
+    max-width: calc(50% - 80px);
+  }
+}
+
+/* Styles for mobile devices and smaller screens (up to 600px) */
+@media screen and (max-width: 600px) {
+  .project-card {
+    flex: 1 0 100%;
+    max-width: 100%;
+  }
+}
+
 .project-card:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
