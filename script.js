@@ -1,15 +1,20 @@
-const form = document.querySelector('contact-form');
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const captchaReponse = grecaptcha.getResponse();
-
-    if (!captchaReponse.length>0) {
-      throw new Error("Captcha not complete");
-    }
-});
-
+async function onClick(e) {
+  e.preventDefault();
+  grecaptcha.enterprise.ready(async () => {
+    const token = await grecaptcha.enterprise.execute('6Lc-Ph4oAAAAAKidnJahBaBUQwfyN0N2pQ8HkKym', {action: 'submit'});
+    
+    // Add the token to a hidden field in the form
+    const form = document.getElementById('contact-form');
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'g-recaptcha-response';
+    input.value = token;
+    form.appendChild(input);
+    
+    // Submit the form
+    form.submit();
+  });
+}
 
 function initMap() {
     var southlandLocation = { lat: 32.885310, lng: -96.768940 };
