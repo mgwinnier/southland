@@ -56,44 +56,42 @@ function initMap() {
       cloneForm.addEventListener('submit', function(e) {
         e.preventDefault();
     
-        grecaptcha.enterprise.ready(async () => {
-          const token = await grecaptcha.enterprise.execute('6Lc-Ph4oAAAAAKidnJahBaBUQwfyN0N2pQ8HkKym', {action: 'submit'});
-          
-          // Verify the reCAPTCHA token
-          fetch('/.netlify/functions/recaptcha-verify', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token }),
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              // reCAPTCHA verification succeeded, proceed with form submission
-              var formData = new FormData(cloneForm);
-              fetch(cloneForm.action, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors' // 'cors' by default
-              })
-              .then(response => {
-                console.log(response);
-                alert('Form Submitted Successfully!');
-                cloneForm.reset(); // Reset the form after successful submission
-              })
-              .catch(error => {
-                console.error('Error:', error);
-              });
-            } else {
-              // reCAPTCHA verification failed, show an error message
-              console.error('reCAPTCHA verification failed', data.error);
-              alert('reCAPTCHA verification failed. Please try again.');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
+        var recaptchaResponse = document.querySelector('#g-recaptcha-response').value;
+    
+        // Verify the reCAPTCHA token
+        fetch('/.netlify/functions/recaptcha-verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: recaptchaResponse }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // reCAPTCHA verification succeeded, proceed with form submission
+            var formData = new FormData(cloneForm);
+            fetch(cloneForm.action, {
+              method: 'POST',
+              body: formData,
+              mode: 'no-cors' // 'cors' by default
+            })
+            .then(response => {
+              console.log(response);
+              alert('Form Submitted Successfully!');
+              cloneForm.reset(); // Reset the form after successful submission
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+          } else {
+            // reCAPTCHA verification failed, show an error message
+            console.error('reCAPTCHA verification failed', data.error);
+            alert('reCAPTCHA verification failed. Please try again.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
         });
       });
     });
