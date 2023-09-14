@@ -1,20 +1,3 @@
-async function onClick(e) {
-  e.preventDefault();
-  grecaptcha.enterprise.ready(async () => {
-    const token = await grecaptcha.enterprise.execute('6Lc-Ph4oAAAAAKidnJahBaBUQwfyN0N2pQ8HkKym', {action: 'submit'});
-    
-    // Add the token to a hidden field in the form
-    const form = document.getElementById('contact-form');
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'g-recaptcha-response';
-    input.value = token;
-    form.appendChild(input);
-    
-    // Submit the form
-    form.submit();
-  });
-}
 
 function initMap() {
     var southlandLocation = { lat: 32.885310, lng: -96.768940 };
@@ -72,23 +55,31 @@ function initMap() {
       // Adds new 'submit' event listener
       cloneForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        var url = this.action;
-        var formData = new FormData(this);
     
-        fetch(url, {
-          method: 'POST',
-          body: formData,
-          mode: 'no-cors' // 'cors' by default
-        }).then(response => {
-          console.log(response);
-          alert('Form Submitted Successfully!');
-          cloneForm.reset(); // Reset the form after successful submission
-        }).catch(error => {
-          console.error('Error:', error);
+        grecaptcha.enterprise.ready(async () => {
+          const token = await grecaptcha.enterprise.execute('6Lc-Ph4oAAAAAKidnJahBaBUQwfyN0N2pQ8HkKym', {action: 'submit'});
+          
+          // Add the token to the form data
+          var formData = new FormData(cloneForm);
+          formData.append('g-recaptcha-response', token);
+    
+          // Submit the form
+          fetch(cloneForm.action, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors' // 'cors' by default
+          })
+          .then(response => {
+            console.log(response);
+            alert('Form Submitted Successfully!');
+            cloneForm.reset(); // Reset the form after successful submission
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
         });
       });
     });
-    
 
   
     
