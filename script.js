@@ -1,3 +1,16 @@
+const form = document.querySelector('contact-form');
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const captchaReponse = grecaptcha.getResponse();
+
+    if (!captchaReponse.length>0) {
+      throw new Error("Captcha not complete");
+    }
+});
+
+
 function initMap() {
     var southlandLocation = { lat: 32.885310, lng: -96.768940 };
   
@@ -71,5 +84,6 @@ function initMap() {
       });
     });
     
+
   
     
