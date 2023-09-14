@@ -59,20 +59,37 @@ function initMap() {
         grecaptcha.enterprise.ready(async () => {
           const token = await grecaptcha.enterprise.execute('6Lc-Ph4oAAAAAKidnJahBaBUQwfyN0N2pQ8HkKym', {action: 'submit'});
           
-          // Add the token to the form data
-          var formData = new FormData(cloneForm);
-          formData.append('g-recaptcha-response', token);
-    
-          // Submit the form
-          fetch(cloneForm.action, {
+          // Verify the reCAPTCHA token
+          fetch('/.netlify/functions/recaptcha-verify', {
             method: 'POST',
-            body: formData,
-            mode: 'no-cors' // 'cors' by default
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token }),
           })
-          .then(response => {
-            console.log(response);
-            alert('Form Submitted Successfully!');
-            cloneForm.reset(); // Reset the form after successful submission
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // reCAPTCHA verification succeeded, proceed with form submission
+              var formData = new FormData(cloneForm);
+              fetch(cloneForm.action, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' // 'cors' by default
+              })
+              .then(response => {
+                console.log(response);
+                alert('Form Submitted Successfully!');
+                cloneForm.reset(); // Reset the form after successful submission
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+            } else {
+              // reCAPTCHA verification failed, show an error message
+              console.error('reCAPTCHA verification failed', data.error);
+              alert('reCAPTCHA verification failed. Please try again.');
+            }
           })
           .catch(error => {
             console.error('Error:', error);
@@ -80,6 +97,5 @@ function initMap() {
         });
       });
     });
-
   
     
