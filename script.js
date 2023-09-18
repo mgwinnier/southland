@@ -47,17 +47,17 @@ function initMap() {
 
     document.addEventListener('DOMContentLoaded', (event) => {
       var form = document.getElementById('contact-form');
-    
+      
       // Removes existing 'submit' event listeners
       var cloneForm = form.cloneNode(true);
       form.parentNode.replaceChild(cloneForm, form);
-    
+      
       // Adds new 'submit' event listener
       cloneForm.addEventListener('submit', function(e) {
         e.preventDefault();
-    
+        
         var recaptchaResponse = document.querySelector('#g-recaptcha-response').value;
-    
+        
         // Verify the reCAPTCHA token
         fetch('https://teal-mermaid-ac1241.netlify.app/.netlify/functions/recaptcha-verify', {
           method: 'POST',
@@ -66,8 +66,15 @@ function initMap() {
           },
           body: JSON.stringify({ token: recaptchaResponse }),
         })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            // If the HTTP status code indicates an error, throw an error
+            throw new Error('Network response was not ok: ' + response.statusText);
+          }
+          return response.json();  // Parse the JSON response
+        })
         .then(data => {
+          // Handle successful response
           if (data.success) {
             // reCAPTCHA verification succeeded, proceed with form submission
             var formData = new FormData(cloneForm);
@@ -91,9 +98,11 @@ function initMap() {
           }
         })
         .catch(error => {
+          // Handle errors
           console.error('Error:', error);
+          alert('An error occurred. Please try again.');
         });
       });
     });
-  
+    
     
