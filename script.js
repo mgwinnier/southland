@@ -59,7 +59,7 @@ function initMap() {
         var recaptchaResponse = document.querySelector('#g-recaptcha-response').value;
         
         // Verify the reCAPTCHA token
-        fetch('https://14zxigvjg9.execute-api.us-east-2.amazonaws.com/default/recaptchaVerify', {
+        fetch('https://14zxigvjg9.execute-api.us-east-2.amazonaws.com/cors/recaptchaVerify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
