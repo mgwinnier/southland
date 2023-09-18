@@ -59,7 +59,7 @@ function initMap() {
         var recaptchaResponse = document.querySelector('#g-recaptcha-response').value;
     
         // Verify the reCAPTCHA token
-        fetch('/.netlify/functions/recaptcha-verify', {
+        fetch('https://teal-mermaid-ac1241.netlify.app/.netlify/functions/recaptcha-verify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
