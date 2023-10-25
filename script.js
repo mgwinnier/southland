@@ -43,67 +43,69 @@ function initMap() {
       marker.addListener("click", function () {
         infoWindow.open(map, marker);
       });
-    }
+ }
 
-    document.addEventListener('DOMContentLoaded', (event) => {
-      var form = document.getElementById('contact-form');
-      
-      // Removes existing 'submit' event listeners
-      var cloneForm = form.cloneNode(true);
-      form.parentNode.replaceChild(cloneForm, form);
-      
-      // Adds new 'submit' event listener
-      cloneForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        var recaptchaResponse = document.querySelector('#g-recaptcha-response').value;
-        
-        // Verify the reCAPTCHA token
-        fetch('https://14zxigvjg9.execute-api.us-east-2.amazonaws.com/cors/recaptchaVerify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: recaptchaResponse }),
-        })
-        .then(response => {
-          if (!response.ok) {
-            // If the HTTP status code indicates an error, throw an error
-            throw new Error('Network response was not ok: ' + response.statusText);
-          }
-          return response.json();  // Parse the JSON response
-        })
-        .then(data => {
-          // Handle successful response
-          if (data.success) {
-            // reCAPTCHA verification succeeded, proceed with form submission
-            var formData = new FormData(cloneForm);
-            fetch(cloneForm.action, {
-              method: 'POST',
-              body: formData,
-              mode: 'no-cors' // 'cors' by default
-            })
-            .then(response => {
-              console.log(response);
-              alert('Form Submitted Successfully!');
-              cloneForm.reset(); // Reset the form after successful submission
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-          } else {
-            // reCAPTCHA verification failed, show an error message
-            console.error('reCAPTCHA verification failed', data.error);
-            alert('reCAPTCHA verification failed. Please try again.');
-          }
-        })
-        .catch(error => {
-          // Handle errors
-          console.error('Error:', error);
-          alert('An error occurred. Please try again.');
-        });
-      });
+ const form = document.getElementById('contact-form');
+const submitButton = document.getElementById('submit-button');
+
+async function onSubmit(event) {
+  event.preventDefault();
+
+  const recaptchaResponse = grecaptcha.getResponse();
+  if (recaptchaResponse.length === 0) {
+    alert('Please verify that you are not a robot.');
+    return;
+  }
+
+  const formData = new FormData(form);
+  const formObject = {};
+  formData.forEach((value, key) => {
+    formObject[key] = value;
+  });
+  formObject['g-recaptcha-response'] = recaptchaResponse;
+
+  try {
+    const response = await fetch('https://8mkwrmev0m.execute-api.us-east-2.amazonaws.com/your-resource-path', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formObject),
     });
-    
-    
-    
+
+    const result = await response.json();
+    if (result.success) {
+      alert('Message sent successfully!');
+      form.reset();
+      grecaptcha.reset();
+      disableSubmitButton();
+    } else {
+      alert('Failed to send message. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    alert('An error occurred while sending the message. Please try again later.');
+  }
+}
+
+function enableSubmitButton() {
+  submitButton.disabled = false;
+}
+
+function disableSubmitButton() {
+  submitButton.disabled = true;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  form.addEventListener('submit', onSubmit);
+
+  // Optional: Reset the reCAPTCHA when the form is reset
+  form.addEventListener('reset', function () {
+    grecaptcha.reset();
+    disableSubmitButton();
+  });
+
+  disableSubmitButton();
+});
+
+
