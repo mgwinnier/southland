@@ -65,7 +65,7 @@ async function onSubmit(event) {
   formObject['g-recaptcha-response'] = recaptchaResponse;
 
   try {
-    const response = await fetch('https://8mkwrmev0m.execute-api.us-east-2.amazonaws.com/your-resource-path', {
+    const response = await fetch('https://8mkwrmev0m.execute-api.us-east-2.amazonaws.com/SouthlandForm', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,18 +73,23 @@ async function onSubmit(event) {
       body: JSON.stringify(formObject),
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const result = await response.json();
     if (result.success) {
       alert('Message sent successfully!');
       form.reset();
       grecaptcha.reset();
-      disableSubmitButton();
     } else {
       alert('Failed to send message. Please try again.');
     }
   } catch (error) {
     console.error('Error submitting form:', error);
     alert('An error occurred while sending the message. Please try again later.');
+  } finally {
+    enableSubmitButton();  // Ensure the button is re-enabled even if an error occurs
   }
 }
 
@@ -107,5 +112,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   disableSubmitButton();
 });
-
-
