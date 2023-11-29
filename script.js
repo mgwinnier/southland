@@ -45,70 +45,12 @@ function initMap() {
       });
  }
 
- const form = document.getElementById('contact-form');
-const submitButton = document.getElementById('submit-button');
-
-async function onSubmit(event) {
-  event.preventDefault();
-
-  const recaptchaResponse = grecaptcha.getResponse();
-  if (recaptchaResponse.length === 0) {
-    alert('Please verify that you are not a robot.');
-    return;
+ document.getElementById('contact-form').addEventListener('submit', function(event) {
+  var recaptchaResponse = grecaptcha.getResponse();
+  if (recaptchaResponse.length == 0) {
+      event.preventDefault(); // Prevent form submission
+      alert('Please complete the CAPTCHA!');
   }
-
-  const formData = new FormData(form);
-  const formObject = {};
-  formData.forEach((value, key) => {
-    formObject[key] = value;
-  });
-  formObject['g-recaptcha-response'] = recaptchaResponse;
-
-  try {
-    const response = await fetch('https://8mkwrmev0m.execute-api.us-east-2.amazonaws.com/SouthlandForm', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formObject),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    if (result.success) {
-      alert('Message sent successfully!');
-      form.reset();
-      grecaptcha.reset();
-    } else {
-      alert('Failed to send message. Please try again.');
-    }
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    alert('An error occurred while sending the message. Please try again later.');
-  } finally {
-    enableSubmitButton();  // Ensure the button is re-enabled even if an error occurs
-  }
-}
-
-function enableSubmitButton() {
-  submitButton.disabled = false;
-}
-
-function disableSubmitButton() {
-  submitButton.disabled = true;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  form.addEventListener('submit', onSubmit);
-
-  // Optional: Reset the reCAPTCHA when the form is reset
-  form.addEventListener('reset', function () {
-    grecaptcha.reset();
-    disableSubmitButton();
-  });
-
-  disableSubmitButton();
+  // If CAPTCHA is solved, form will be submitted
 });
+
