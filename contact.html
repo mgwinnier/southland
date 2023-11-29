@@ -7,14 +7,14 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HECHQH1EYN"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HECHQH1EYN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'G-HECHQH1EYN');
-  </script>
+  gtag('config', 'G-HECHQH1EYN');
+</script>
 
   <title>Contact Us - Southland CE</title>
   <script src="script.js" defer></script>
@@ -45,7 +45,7 @@
         <p class="contact-text">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
       
         <div class="contact-form card">
-            <form id="contact-form" action="https://fvt0oazp1f.execute-api.us-east-2.amazonaws.com/prod" method="POST">
+            <form id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfw5p_scOzTbYfJG9jB8pTPAtUvfbmlLigFv0HAqfAbmqgtxQ/formResponse" method="POST" onsubmit="handleFormSubmit(event)">
                 <input type="text" name="entry.1057112631" placeholder="Your Name" required>
                 <input type="email" name="entry.168157839" placeholder="Your Email" required>
                 <input type="phone" name="entry.1571930685" placeholder="Your Phone Number" required>
@@ -56,9 +56,11 @@
             </form>
         </div>
         <div id="map"></div>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI-6vhXdVPWLRdF73QJd1wBS-vHSEbjDU&callback=initMap" async defer></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI-6vhXdVPWLRdF73QJd1wBS-vHSEbjDU&callback=initMap" async defer></script>
+        </div>
     </div>
-  </main>
+</main>
+
 
   <footer>
     <div class="footer-container">
@@ -80,3 +82,5 @@
   </footer>
 </body>
 </html>
+
+

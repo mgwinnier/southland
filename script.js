@@ -45,12 +45,40 @@ function initMap() {
       });
  }
 
- document.getElementById('contact-form').addEventListener('submit', function(event) {
+ function handleFormSubmit(event) {
+  event.preventDefault(); // Prevent default form submission to Google Forms
+
   var recaptchaResponse = grecaptcha.getResponse();
-  if (recaptchaResponse.length == 0) {
-      event.preventDefault(); // Prevent form submission
+  if (recaptchaResponse.length === 0) {
       alert('Please complete the CAPTCHA!');
+      return;
   }
-  // If CAPTCHA is solved, form will be submitted
-});
+
+  // Prepare the data for the Lambda function
+  var lambdaData = {
+      'g-recaptcha-response': recaptchaResponse
+  };
+
+  // Send data to your Lambda function
+  fetch('https://fvt0oazp1f.execute-api.us-east-2.amazonaws.com/prod', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(lambdaData)
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          // If CAPTCHA verification is successful, submit the form to Google Forms
+          document.getElementById('contact-form').submit();
+      } else {
+          alert('CAPTCHA verification failed. Please try again.');
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+}
+
 
