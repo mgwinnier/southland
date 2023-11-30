@@ -44,9 +44,9 @@
       
         <div class="contact-form card">
             <form id="contact-form" onsubmit="submitContactForm(event); return false" method="POST">
-                <input type="text"  placeholder="Your Name" required>
-                <input type="email"  placeholder="Email" required>
-                <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <textarea name="message" id="'message" rows="6" placeholder="Your Message" required></textarea>
                 <div class="g-recaptcha" data-sitekey="6LcWrCYoAAAAAOm_YwDg6WeBOzCn9qyeGO9S1Kcb"></div>
                 <button id="active-button" type="submit">Send Message</button>
             </form>
