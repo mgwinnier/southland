@@ -50,7 +50,7 @@ function initMap() {
         event.preventDefault();
 
         var recaptchaResponse = grecaptcha.getResponse();
-        fetch('YOUR_API_GATEWAY_ENDPOINT', {
+        fetch('https://iiuv88jm32.execute-api.us-east-2.amazonaws.com/default/EmailCaptcha', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
