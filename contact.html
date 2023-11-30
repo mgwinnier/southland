@@ -4,17 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HECHQH1EYN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-HECHQH1EYN');
 </script>
 
+  <title><title>Contact Us - Southland CE</title></title>
   <title>Contact Us - Southland CE</title>
+  <script src="script.js" defer></script>
 </head>
 <body>
   <header>
@@ -35,52 +37,27 @@
       </ul>
     </nav>
   </header>
-
   <main>
     <div class="contact-section">
         <h1>Contact Us</h1>
         <p class="contact-text">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
       
         <div class="contact-form card">
-          <form id="contact-form" onsubmit="submitContactForm(event); return false" method="POST">
-            <input
-            type="text"
-            placeholder="Your name"
-            name="name"
-            required
-          />
-        <div class="mb-3 pt-0">
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            required
-          />
+            <form id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfw5p_scOzTbYfJG9jB8pTPAtUvfbmlLigFv0HAqfAbmqgtxQ/formResponse" method="POST">
+                <input type="text" name="entry.1057112631" placeholder="Your Name" required>
+                <input type="email" name="entry.168157839" placeholder="Your Email" required>
+                <input type="phone" name="entry.1571930685" placeholder="Your Phone Number" required>
+                <input type="text" name="entry.1710399761" placeholder="Subject" required>
+                <textarea name="entry.1408004779" rows="6" placeholder="Your Message" required></textarea>
+                <div class="g-recaptcha" data-sitekey="6LcWrCYoAAAAAOm_YwDg6WeBOzCn9qyeGO9S1Kcb"></div>
+                <button type="button" onclick="onClick(event)">Send Message</button>
+            </form>
         </div>
-        <div class="mb-3 pt-0">
-          <textarea
-            rows="8"
-            placeholder="Your message"
-            name="message"
-            required
-          ></textarea>
-        </div>
-        <div class="mb-3 pt-0">
-          <div class="g-recaptcha" data-sitekey="6LcWrCYoAAAAAOm_YwDg6WeBOzCn9qyeGO9S1Kcb"></div>
-          <br/>
-          <button
-              id="active-button"
-              type="submit" 
-              >Send a message</button>
-            </form></div>
-        
-           
         <div id="map"></div>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI-6vhXdVPWLRdF73QJd1wBS-vHSEbjDU&callback=initMap" async defer></script>
         </div>
     </div>
 </main>
-
-
   <footer>
     <div class="footer-container">
       <div class="footer-left">
@@ -99,17 +76,5 @@
       </div>
     </div>
   </footer>
-    <!-- Custom Script -->
-    <script src="script.js" defer></script>
-
-    <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI-6vhXdVPWLRdF73QJd1wBS-vHSEbjDU&callback=initMap" async defer></script>
-
-    <!-- Other Scripts -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HECHQH1EYN"></script>
 </body>
 </html>
-
-
