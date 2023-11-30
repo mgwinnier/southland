@@ -60,7 +60,7 @@ function initMap() {
     };
 
     // Lambda function endpoint
-    var endpoint = 'https://b5xerj8v2h.execute-api.us-east-2.amazonaws.com/dev/validate';
+    var endpoint = 'https://b5xerj8v2h.execute-api.us-east-2.amazonaws.com/dev';
 
     // Make a POST request to your serverless function
     fetch(endpoint, {
