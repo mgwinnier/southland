@@ -1,4 +1,3 @@
-
 function initMap() {
     var southlandLocation = { lat: 32.885310, lng: -96.768940 };
   
