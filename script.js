@@ -47,43 +47,41 @@ function initMap() {
 
   document.getElementById('contact-form').addEventListener('submit', function(event) {
     event.preventDefault();
-
+    
+    // Define the form variable here so it's available later in the scope
+    var form = document.getElementById('contact-form');
     var recaptchaResponse = grecaptcha.getResponse();
+    
     fetch('https://ufbxm0t7z4.execute-api.us-east-2.amazonaws.com/default/EmailCaptcha', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          subject: document.getElementById('subject').value, // Make sure you have an input field for subject in your HTML
-          message: document.getElementById('message').value,
-          recaptcha: recaptchaResponse
-      })
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok.');
-      }
-      return response.json();
-  })
-  .then(data => {
-      console.log('Success:', data);
-      // Clear the form here
-      form.reset();
-      // If you're displaying a success message to the user, do it here.
-  })
-  .then(data => {
-    console.log('Success:', data);
-    form.reset(); // Clear the form
-    grecaptcha.reset(); // Reset the reCAPTCHA widget
-    // If you're displaying a success message to the user, do it here.
-  })
-  .catch(error => {
-      console.error('Error:', error);
-      // If you're displaying an error message to the user, do it here.
-  });
+            name: form.querySelector('#name').value,
+            email: form.querySelector('#email').value,
+            subject: form.querySelector('#subject').value,
+            message: form.querySelector('#message').value,
+            recaptcha: recaptchaResponse
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        // Clear the form and the reCAPTCHA widget here
+        form.reset();
+        grecaptcha.reset();
+        // Optionally display a success message to the user
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Optionally display an error message to the user
+    });
 });
 
 
