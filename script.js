@@ -46,5 +46,43 @@ function initMap() {
  }
 
 
+          var form;
+          var button;
+      
+          window.onload = function () {
+              form = document.getElementById('contact-form');
+              button = document.getElementById('submit-button');
+              const $recaptcha = document.querySelector('#g-recaptcha-response');
+              if ($recaptcha) {
+                  $recaptcha.setAttribute('required', 'required');
+              }
+          }
+      
+          function submitContactForm(event){
+      
+              var data = {};
+              for (var i = 0, ii = form.length; i < ii; ++i) {
+                  var input = form[i];
+                  if (input.name) {
+                      data[input.name] = input.value;
+                  }
+              }
+              
+      
+              axios({
+                  method: 'post',
+                  url: 'https://il775iibknmfaumwimy4viw3kq0uxwsp.lambda-url.us-east-2.on.aws/',
+                  headers: ['Content-type', 'application/json; charset=UTF-8'],
+                  data: data
+              }).then(response => {
+                  if(response.data.success){
+                      let prompt = document.getElementById('message-prompt');
+                      prompt.classList.remove("collapse");
+                      prompt.classList.add("visible");
+                      form.reset();
+                  }
+              });
+              
+          };
 
 
