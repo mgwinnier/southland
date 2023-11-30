@@ -43,6 +43,53 @@ function initMap() {
       infoWindow.open(map, marker);
     });
   }
+
+
+  function submitContactForm(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    var form = document.getElementById('contact-form');
+    var recaptchaResponse = grecaptcha.getResponse();
+
+    // Collect form data
+    var formData = {
+      name: form['name'].value,
+      email: form['email'].value,
+      message: form['message'].value,
+      recaptcha: recaptchaResponse
+    };
+
+    // Lambda function endpoint
+    var endpoint = 'https://b5xerj8v2h.execute-api.us-east-2.amazonaws.com/dev/validate';
+
+    // Make a POST request to your serverless function
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // Handle success - maybe display a success message
+      // Reset the form and reCAPTCHA
+      form.reset();
+      grecaptcha.reset();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Handle errors here, such as displaying an error message
+    });
+  }
+
+
  
 
 
