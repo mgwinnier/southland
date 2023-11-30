@@ -45,39 +45,34 @@ function initMap() {
   };
 
 
-  document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
-        event.preventDefault();
+  document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        var recaptchaResponse = grecaptcha.getResponse();
-        fetch('https://ufbxm0t7z4.execute-api.us-east-2.amazonaws.com/default/EmailCaptcha', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value,
-                recaptcha: recaptchaResponse
-            })
+    var recaptchaResponse = grecaptcha.getResponse();
+    fetch('https://ufbxm0t7z4.execute-api.us-east-2.amazonaws.com/default/EmailCaptcha', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,  // Assuming you have an input with id="subject"
+            message: document.getElementById('message').value,
+            recaptcha: recaptchaResponse
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success:', data);
-            // Handle success - e.g., display a success message
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            // Handle errors here, e.g., display an error message
-        });
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle success
+        console.log('Success:', data);
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error:', error);
     });
 });
+
 
 
 
