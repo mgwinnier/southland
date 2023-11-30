@@ -55,22 +55,35 @@ function initMap() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            subject: document.getElementById('subject').value,  // Assuming you have an input with id="subject"
-            message: document.getElementById('message').value,
-            recaptcha: recaptchaResponse
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle success
-        console.log('Success:', data);
-    })
-    .catch(error => {
-        // Handle errors
-        console.error('Error:', error);
-    });
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          subject: document.getElementById('subject').value, // Make sure you have an input field for subject in your HTML
+          message: document.getElementById('message').value,
+          recaptcha: recaptchaResponse
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok.');
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log('Success:', data);
+      // Clear the form here
+      form.reset();
+      // If you're displaying a success message to the user, do it here.
+  })
+  .then(data => {
+    console.log('Success:', data);
+    form.reset(); // Clear the form
+    grecaptcha.reset(); // Reset the reCAPTCHA widget
+    // If you're displaying a success message to the user, do it here.
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      // If you're displaying an error message to the user, do it here.
+  });
 });
 
 
