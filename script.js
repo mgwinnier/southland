@@ -42,9 +42,42 @@ function initMap() {
     marker.addListener("click", function () {
       infoWindow.open(map, marker);
     });
-  }
+  };
 
 
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var recaptchaResponse = grecaptcha.getResponse();
+        fetch('YOUR_API_GATEWAY_ENDPOINT', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                recaptcha: recaptchaResponse
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            // Handle success - e.g., display a success message
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Handle errors here, e.g., display an error message
+        });
+    });
+});
 
 
 
