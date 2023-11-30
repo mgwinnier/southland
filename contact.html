@@ -41,45 +41,83 @@
 
   <main>
     <div class="contact-section">
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script src="https://www.google.com/recaptcha/api.js"></script>
       <script>
-        $(document).ready(function() {
-
-            $("#submit").click(function(e) {
-                e.preventDefault();
-
-                var name = $("#name").val(),
-                    email = $("#email").val(),
-                    comment = $("#comment").val();
-
-                $.ajax({
-                    type: "POST",
-                    url: '<YOUR AWS API GATEWAY URL IN HERE>',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        'name': name,
-                        'email': email,
-                        'comment': comment
-                    }),
-                    success: function(res){
-                        $('#contact-submit').text('Email was sent.');
-                    },
-                    error: function(){
-                        $('#contact-submit').text('Error.');
-                    }
-                });
-            })
-        });
-    </script>
+          var form;
+          var button;
+      
+          window.onload = function () {
+              form = document.getElementById('contact-form');
+              button = document.getElementById('submit-button');
+              const $recaptcha = document.querySelector('#g-recaptcha-response');
+              if ($recaptcha) {
+                  $recaptcha.setAttribute('required', 'required');
+              }
+          }
+      
+          function submitContactForm(event){
+      
+              var data = {};
+              for (var i = 0, ii = form.length; i < ii; ++i) {
+                  var input = form[i];
+                  if (input.name) {
+                      data[input.name] = input.value;
+                  }
+              }
+              
+      
+              axios({
+                  method: 'post',
+                  url: 'https://il775iibknmfaumwimy4viw3kq0uxwsp.lambda-url.us-east-2.on.aws/',
+                  headers: ['Content-type', 'application/json; charset=UTF-8'],
+                  data: data
+              }).then(response => {
+                  if(response.data.success){
+                      let prompt = document.getElementById('message-prompt');
+                      prompt.classList.remove("collapse");
+                      prompt.classList.add("visible");
+                      form.reset();
+                  }
+              });
+              
+          };
+      </script>
         <h1>Contact Us</h1>
         <p class="contact-text">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
       
         <div class="contact-form card">
-            <form id="contact-form"  action="https://irxhx2cmr1.execute-api.us-east-2.amazonaws.com/default/reCaptcha_prod" method="post" enctype="application/json">
-              <p><input id="name" tabindex="1" name="name" required="" type="text" autofocus="" placeholder="Your name" size="40"/></p>
-              <p><input tabindex="2" name="email" required="" type="email" placeholder="Email address" size="40" /></p>
-              <p><textarea id="comment" name="comment" tabindex="3" required="" placeholder="Type your comment here" rows="4" cols="40"></textarea></p>
-                <div class="g-recaptcha" data-sitekey="6LcWrCYoAAAAAOm_YwDg6WeBOzCn9qyeGO9S1Kcb"></div>
-                <button type="submit">Send Message</button>
+          <form id="contact-form" onsubmit="submitContactForm(event); return false" method="POST">
+            <input
+            type="text"
+            placeholder="Your name"
+            name="name"
+            required
+          />
+        </div>
+        <div class="mb-3 pt-0">
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="mb-3 pt-0">
+          <textarea
+            rows="8"
+            placeholder="Your message"
+            name="message"
+            required
+          ></textarea>
+        </div>
+        <div class="mb-3 pt-0">
+          <div class="g-recaptcha" data-sitekey="6LcWrCYoAAAAAOm_YwDg6WeBOzCn9qyeGO9S1Kcb"></div>
+          <br/>
+          <button
+              id="active-button"
+              type="submit" 
+              >Send a message</button>
             </form></div>
         
             <script>
