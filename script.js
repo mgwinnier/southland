@@ -1,7 +1,7 @@
 function initMap() {
   var southlandLocation = { lat: 32.885310, lng: -96.768940 };
 
-  var map = new google.maps.Map(document.getElementById("map"), {
+    var map = new google.maps.Map(document.getElementById("map"), {
       center: southlandLocation,
       zoom: 17,
       mapTypeId: "hybrid",
@@ -25,7 +25,7 @@ function initMap() {
           stylers: [{ visibility: "on" }],
         },
       ],
-    });
+   });
   
     var marker = new google.maps.Marker({
       position: southlandLocation,
