@@ -19,6 +19,46 @@
   <script src="script.js" defer></script>
 </head>
 <body>
+  <script>
+    var form;
+    var button;
+
+    window.onload = function () {
+        form = document.getElementById('contact-form');
+        button = document.getElementById('submit-button');
+        const $recaptcha = document.querySelector('#g-recaptcha-response');
+        if ($recaptcha) {
+            $recaptcha.setAttribute('required', 'required');
+        }
+    }
+
+    function submitContactForm(event){
+
+        var data = {};
+        for (var i = 0, ii = form.length; i < ii; ++i) {
+            var input = form[i];
+            if (input.name) {
+                data[input.name] = input.value;
+            }
+        }
+        
+
+        axios({
+            method: 'post',
+            url: 'https://il775iibknmfaumwimy4viw3kq0uxwsp.lambda-url.us-east-2.on.aws/',
+            headers: ['Content-type', 'application/json; charset=UTF-8'],
+            data: data
+        }).then(response => {
+            if(response.data.success){
+                let prompt = document.getElementById('message-prompt');
+                prompt.classList.remove("collapse");
+                prompt.classList.add("visible");
+                form.reset();
+            }
+        });
+        
+    };
+  </script>
   <header>
     <div class="logo-container">
       <!-- Replace 'logo.png' with the path to your logo image -->
@@ -43,14 +83,12 @@
         <p class="contact-text">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
       
         <div class="contact-form card">
-            <form id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfw5p_scOzTbYfJG9jB8pTPAtUvfbmlLigFv0HAqfAbmqgtxQ/formResponse" method="POST">
-                <input type="text" name="entry.1057112631" placeholder="Your Name" required>
-                <input type="email" name="entry.168157839" placeholder="Your Email" required>
-                <input type="phone" name="entry.1571930685" placeholder="Your Phone Number" required>
-                <input type="text" name="entry.1710399761" placeholder="Subject" required>
-                <textarea name="entry.1408004779" rows="6" placeholder="Your Message" required></textarea>
+            <form id="contact-form" onsubmit="submitContactForm(event); return false" method="POST">
+                <input type="text"  placeholder="Your Name" required>
+                <input type="email"  placeholder="Email" required>
+                <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
                 <div class="g-recaptcha" data-sitekey="6LcWrCYoAAAAAOm_YwDg6WeBOzCn9qyeGO9S1Kcb"></div>
-                <button type="button" onclick="onClick(event)">Send Message</button>
+                <button id="active-button" type="submit">Send Message</button>
             </form>
         </div>
         <div id="map"></div>
